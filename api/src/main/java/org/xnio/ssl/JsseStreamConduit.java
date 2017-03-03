@@ -376,7 +376,8 @@ final class JsseStreamConduit implements StreamSourceConduit, StreamSinkConduit,
                 throw new UnsupportedOperationException();
             }
             // write side
-            if (anyAreSet(state, WRITE_FLAG_WAKEUP) || allAreSet(state, WRITE_FLAG_RESUMED | WRITE_FLAG_READY)) {
+            if ((anyAreSet(state, WRITE_FLAG_WAKEUP) || allAreSet(state, WRITE_FLAG_RESUMED | WRITE_FLAG_READY))
+                    && allAreClear(state, WRITE_FLAG_FINISHED)) {
                 final WriteReadyHandler writeReadyHandler = JsseStreamConduit.this.writeReadyHandler;
                 if (allAreSet(state, WRITE_FLAG_WAKEUP)) {
                     state = state & ~WRITE_FLAG_WAKEUP | WRITE_FLAG_RESUMED;
