@@ -198,6 +198,7 @@ public class NioStartTLSTcpConnectionTestCase extends NioSslTcpConnectionTestCas
         assertEquals(clientSent.get(), serverReceived.get());
     }
 
+    @Test
     public void oneWayTransfer4() throws Exception {
         log.info("Test: oneWayTransfer4");
         final CountDownLatch latch = new CountDownLatch(2);
