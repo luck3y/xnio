@@ -71,6 +71,7 @@ jobs:
       shell: bash
       run: |
         pwd
+        mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout
         tar -xzf maven-repo.tgz -C ~
         ls -l ~/.m2/repository
     - name: Set up JDK ${{ matrix.java }}
@@ -89,6 +90,3 @@ jobs:
       with:
         name: surefire-reports-${{ matrix.module }}-${{ matrix.openjdk_impl}}-${{ matrix.jdk }}-${{ matrix.os }}
         path: '**/surefire-reports/*.txt'
-    - name: Run netstat (post)
-      if: always()
-      run: netstat -an
