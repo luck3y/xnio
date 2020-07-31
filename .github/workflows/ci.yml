@@ -50,18 +50,23 @@ jobs:
         module: [api, nio-impl]
         os: [ubuntu-20.04]
         jdk: [8, 11]
-        openjdk_impl: [hotspot, openj9]
+        impl: [hotspot, openj9]
     steps:
     - name: Host Configuration
       run: | 
         cat /etc/redhat-release || true
-        dnf install -y maven
+        dnf install -y wget git
+        wget http://apache.mirrors.hoobly.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+        mkdir -p /usr/local
+        tar -xzf apache-maven-3.6.3-bin.tar.gz -C /usr/local
+        ln -s /usr/local/apache-maven-3.6.3 /usr/local/apache-maven
+        export PATH="/usr/local/apache-maven/bin:$PATH"
     - uses: actions/checkout@v2
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
         version: ${{ matrix.jdk }}
-        impl: ${{ matrix.jdk_impl }}
+        impl: ${{ matrix.impl }}
     - name: Download Maven Repo
       uses: actions/download-artifact@v1
       with:
