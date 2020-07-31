@@ -71,6 +71,7 @@ jobs:
       shell: bash
       run: |
         pwd
+        ls -l ~/.m2
         tar -xzf maven-repo.tgz -C ~
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
@@ -80,6 +81,8 @@ jobs:
     - name: Run Tests
       run: | 
         cat /etc/redhat-release || true
+        java -version
+        maven -version
         mvn -U -B -fae test -pl ${{ matrix.module }}
     - uses: actions/upload-artifact@v2
       if: failure()
