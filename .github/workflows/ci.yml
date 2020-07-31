@@ -71,8 +71,8 @@ jobs:
       shell: bash
       run: |
         pwd
-        ls -l ~/.m2
         tar -xzf maven-repo.tgz -C ~
+        ls -l ~/.m2/repository
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
