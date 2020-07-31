@@ -8,11 +8,36 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
+  build-all:
+    name: Compile (no tests) with JDK 8
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: AdoptOpenJDK/install-jdk@v1
+      name: Install JDK 8
+      with:
+        version: 8    
+    - name: Build
+      run: mvn -U -B -fae -DskipTests clean install
+    - name: Tar Maven Repo
+      shell: bash
+      run: tar -czf maven-repo.tgz -C ~ .m2/repository
+    - name: Persist Maven Repo
+      uses: actions/upload-artifact@v1
+      with:
+        name: maven-repo
+        path: maven-repo.tgz
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: surefire-reports-build
+        path: '**/surefire-reports/*.txt'
   test-matrix:
     name: ${{ matrix.module }}-${{ matrix.openjdk_impl}}-${{ matrix.jdk }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     container:
       image: centos:centos8
+    needs: build-all
     strategy:
       fail-fast: false
       matrix:
