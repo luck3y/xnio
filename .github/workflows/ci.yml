@@ -72,8 +72,7 @@ jobs:
       run: |
         pwd
         mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout
-        tar -xzf maven-repo.tgz -C ~
-        ls -l ~/.m2/repository
+        tar -xzf maven-repo.tgz -C /root
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
