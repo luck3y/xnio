@@ -12,6 +12,12 @@ jobs:
     name: Compile (no tests) with JDK 8
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          m2-
     - uses: actions/checkout@v2
     - uses: AdoptOpenJDK/install-jdk@v1
       name: Install JDK 8
@@ -63,7 +69,9 @@ jobs:
         path: .
     - name: Extract Maven Repo
       shell: bash
-      run: tar -xzf maven-repo.tgz -C ~
+      run: |
+        pwd
+        tar -xzf maven-repo.tgz -C ~
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
