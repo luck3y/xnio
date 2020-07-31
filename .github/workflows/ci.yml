@@ -82,7 +82,7 @@ jobs:
       run: | 
         cat /etc/redhat-release || true
         java -version
-        maven -version
+        mvn -version
         mvn -U -B -fae test -pl ${{ matrix.module }}
     - uses: actions/upload-artifact@v2
       if: failure()
