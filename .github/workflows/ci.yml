@@ -49,8 +49,20 @@ jobs:
     - name: Host Configuration
       run: | 
         cat /etc/redhat-release || true
-        sudo dnf install maven -y
     - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.java }}
+      uses: AdoptOpenJDK/install-jdk@v1
+      with:
+        version: ${{ matrix.jdk }}
+        impl: ${{ matrix.jdk_impl }}
+    - name: Download Maven Repo
+      uses: actions/download-artifact@v1
+      with:
+        name: maven-repo
+        path: .
+    - name: Extract Maven Repo
+      shell: bash
+      run: tar -xzf maven-repo.tgz -C ~
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
@@ -58,5 +70,13 @@ jobs:
         impl: ${{ matrix.jdk_impl }}
     - name: Run Tests
       run: | 
-        echo mvn -U -B -fae test -pl ${{ matrix.module }}
         cat /etc/redhat-release || true
+        mvn -U -B -fae test -pl ${{ matrix.module }}
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: surefire-reports-${{ matrix.module }}-${{ matrix.openjdk_impl}}-${{ matrix.jdk }}-${{ matrix.os }}
+        path: '**/surefire-reports/*.txt'
+    - name: Run netstat (post)
+      if: always()
+      run: netstat -an
