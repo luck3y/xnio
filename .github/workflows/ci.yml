@@ -56,7 +56,7 @@ jobs:
       run: | 
         cat /etc/redhat-release || true
         dnf install -y git
-        curl -O maven.tgz http://apache.mirrors.hoobly.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+        curl -s -o maven.tgz http://apache.mirrors.hoobly.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
         mkdir -p /usr/local
         tar -xzf maven.tgz -C /usr/local
         ln -s /usr/local/apache-maven-3.6.3 /usr/local/apache-maven
