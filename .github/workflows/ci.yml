@@ -49,6 +49,7 @@ jobs:
     - name: Host Configuration
       run: | 
         cat /etc/redhat-release || true
+        dnf install -y maven
     - uses: actions/checkout@v2
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
