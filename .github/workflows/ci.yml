@@ -56,6 +56,7 @@ jobs:
       run: | 
         cat /etc/redhat-release || true
         dnf install -y git
+    - uses: actions/checkout@v2
     - name: Install Maven
       run: | 
         curl -o maven.tgz http://apache.mirrors.hoobly.com/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
@@ -63,7 +64,7 @@ jobs:
         tar -xzf maven.tgz -C /usr/local
         ln -s /usr/local/apache-maven-3.6.3 /usr/local/apache-maven
         export PATH="/usr/local/apache-maven/bin:$PATH"
-    - uses: actions/checkout@v2
+        mvn -version
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
