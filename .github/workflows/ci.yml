@@ -75,11 +75,6 @@ jobs:
       with:
         name: maven-repo
         path: .
-    - name: Set up JDK ${{ matrix.java }}
-      uses: AdoptOpenJDK/install-jdk@v1
-      with:
-        version: ${{ matrix.jdk }}
-        impl: ${{ matrix.jdk_impl }}
     - name: Extract Maven Repo
       shell: bash
       run: |
