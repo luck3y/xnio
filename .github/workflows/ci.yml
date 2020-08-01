@@ -83,11 +83,13 @@ jobs:
     - name: Extract Maven Repo
       shell: bash
       run: |
+        export PATH="/usr/local/apache-maven/bin:$PATH"
         pwd
         mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout
         tar -xzf maven-repo.tgz -C /root
     - name: Run Tests
-      run: | 
+      run: |
+        export PATH="/usr/local/apache-maven/bin:$PATH" 
         cat /etc/redhat-release || true
         java -version
         mvn -version
