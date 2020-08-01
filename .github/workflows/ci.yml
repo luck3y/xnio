@@ -39,7 +39,7 @@ jobs:
         name: surefire-reports-build
         path: '**/surefire-reports/*.txt'
   test-matrix:
-    name: ${{ matrix.module }}-${{ matrix.openjdk_impl}}-${{ matrix.jdk }}-${{ matrix.os }}
+    name: ${{ matrix.module }}-${{ matrix.impl}}-${{ matrix.jdk }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     container:
       image: centos:centos8
@@ -95,5 +95,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: surefire-reports-${{ matrix.module }}-${{ matrix.openjdk_impl}}-${{ matrix.jdk }}-${{ matrix.os }}
+        name: surefire-reports-${{ matrix.module }}-${{ matrix.impl}}-${{ matrix.jdk }}-${{ matrix.os }}
         path: '**/surefire-reports/*.txt'
